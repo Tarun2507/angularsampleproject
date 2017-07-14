@@ -1,0 +1,59 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        {{pageTitle}}
+    </div>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-2'>Filter by:</div>
+            <div class='col-md-4'>
+                <input type='text' [(ngModel)]='listFilter' />
+            </div>
+        </div>
+        <div class='row' *ngIf='listFilter'>
+            <div class='col-md-6'>
+                <h3>Filtered by: {{listFilter}} </h3>
+            </div>
+        </div>
+
+        <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+
+        <div class='table-responsive'>
+            <table class='table'
+                   *ngIf='players && players.length'>
+                <thead>
+                    <tr>
+                        <th>
+                            <button class='btn btn-primary'
+                                (click)='manipulateImage()'>
+                                {{showImage ? 'Hide' : 'Show'}} Image
+                            </button>
+                        </th>
+                        <th>PlayerName</th>
+                        <th>NoOfMatches</th>
+                        <th>RunsScored</th>
+                        <th>Average</th>
+                        <th>StrikeRate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let player of players|playerFilter:listFilter'>
+                        <td>
+                            <img *ngIf='showImage'
+                                 [src]='player.imageUrl'
+                                 [title]='player.playername | uppercase'
+                                 [style.width.px]='imageWidth' 
+                                 [style.margin.px]='imageMargin'>
+                        </td>
+                        <td>{{ player.playername | uppercase }}</td>
+                        <td>{{ player.noofmatches}}</td>
+                        <td>{{ player.runsscored}}</td>
+                        <td>
+                           {{player.average| number : '2.2-4'}}
+                       </td>
+                       <td>{{player.strikerate| number : '2.2-4'}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
